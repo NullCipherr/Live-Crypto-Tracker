@@ -1,4 +1,4 @@
-# Live Crypto Tracker V2
+# Live Crypto Tracker
 
 A real-time crypto dashboard built with React + TypeScript. The app tracks top market-cap assets from CoinGecko with a SaaS-grade UX focused on signal, clarity, and fast monitoring workflows.
 
