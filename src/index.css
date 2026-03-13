@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 220 25% 98%;
+    --foreground: 222 47% 11%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+    --border: 214 25% 88%;
+    --muted: 220 27% 95%;
+    --muted-foreground: 218 13% 40%;
+    --accent: 202 90% 46%;
+    --accent-foreground: 210 40% 98%;
+    --positive: 148 71% 37%;
+    --negative: 353 78% 47%;
+    --chart-1: 202 90% 46%;
+    --chart-2: 148 71% 37%;
+    --chart-3: 353 78% 47%;
+  }
+
+  .dark {
+    --background: 222 47% 8%;
+    --foreground: 210 40% 96%;
+    --card: 223 42% 11%;
+    --card-foreground: 210 40% 96%;
+    --border: 217 24% 22%;
+    --muted: 223 32% 16%;
+    --muted-foreground: 215 16% 68%;
+    --accent: 191 92% 52%;
+    --accent-foreground: 222 47% 10%;
+    --positive: 148 64% 44%;
+    --negative: 357 84% 61%;
+    --chart-1: 191 92% 52%;
+    --chart-2: 148 64% 44%;
+    --chart-3: 357 84% 61%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Manrope', system-ui, sans-serif;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: 'Sora', 'Manrope', system-ui, sans-serif;
+    letter-spacing: -0.015em;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
