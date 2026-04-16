@@ -18,7 +18,7 @@ export function CoinSparkline({ data, positive }: CoinSparklineProps) {
             dot={false}
             stroke={positive ? 'hsl(var(--positive))' : 'hsl(var(--negative))'}
             strokeWidth={2}
-            isAnimationActive
+            isAnimationActive={false}
           />
         </LineChart>
       </ResponsiveContainer>

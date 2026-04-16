@@ -1,5 +1,6 @@
 import { Search, RefreshCw, Moon, Sun, Radio } from 'lucide-react';
 import { formatDateTime } from '../../lib/formatters';
+import { useTheme } from '../../hooks/useTheme';
 
 interface DashboardHeaderProps {
   search: string;
@@ -7,8 +8,6 @@ interface DashboardHeaderProps {
   onRefresh: () => void;
   isFetching: boolean;
   fetchedAt?: number;
-  theme: 'light' | 'dark';
-  onToggleTheme: () => void;
 }
 
 export function DashboardHeader({
@@ -17,16 +16,16 @@ export function DashboardHeader({
   onRefresh,
   isFetching,
   fetchedAt,
-  theme,
-  onToggleTheme,
 }: DashboardHeaderProps) {
+  const { theme, toggleTheme } = useTheme();
+
   return (
     <header className="sticky top-0 z-20 border-b border-border/70 bg-background/85 backdrop-blur-xl">
       <div className="mx-auto flex w-full max-w-7xl items-center gap-3 px-4 py-3 sm:px-6 lg:px-8">
         <div className="hidden items-center gap-2 sm:flex">
           <div className="rounded-xl bg-accent px-2 py-1 text-xs font-semibold text-accent-foreground">LC</div>
           <div>
-            <h1 className="text-sm font-semibold tracking-wide text-foreground">Live Crypto Tracker V2</h1>
+            <h1 className="text-sm font-semibold tracking-wide text-foreground">Live Crypto Tracker</h1>
             <p className="text-xs text-muted-foreground">Premium market monitor</p>
           </div>
         </div>
@@ -58,7 +57,7 @@ export function DashboardHeader({
         </button>
 
         <button
-          onClick={onToggleTheme}
+          onClick={toggleTheme}
           className="rounded-xl border border-border bg-card p-2 text-muted-foreground transition-colors hover:text-foreground"
           aria-label="Toggle theme"
         >

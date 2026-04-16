@@ -38,7 +38,10 @@ export function CoinExpandedPanel({ coin, expanded }: CoinExpandedPanelProps) {
                 borderRadius: '0.8rem',
                 border: '1px solid hsl(var(--border))',
                 background: 'hsl(var(--card))',
+                color: 'hsl(var(--foreground))',
               }}
+              itemStyle={{ color: 'hsl(var(--foreground))' }}
+              labelStyle={{ color: 'hsl(var(--muted-foreground))' }}
               formatter={(value) => [formatCurrency(Number(value ?? 0)), 'Price']}
               labelFormatter={() => '7D trend'}
             />
@@ -48,7 +51,7 @@ export function CoinExpandedPanel({ coin, expanded }: CoinExpandedPanelProps) {
               stroke={positive ? 'hsl(var(--positive))' : 'hsl(var(--negative))'}
               strokeWidth={2}
               fill={`url(#coin-gradient-${coin.id})`}
-              isAnimationActive
+              isAnimationActive={false}
             />
           </AreaChart>
         </ResponsiveContainer>

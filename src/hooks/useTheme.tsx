@@ -20,10 +20,20 @@ function getInitialTheme(): Theme {
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState<Theme>(() => getInitialTheme());
 
+  const toggleTheme = () => {
+    const root = document.documentElement;
+    root.classList.add('theme-transition');
+    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
+    window.setTimeout(() => {
+      root.classList.remove('theme-transition');
+    }, 280);
+  };
+
   useEffect(() => {
     const root = document.documentElement;
     root.classList.remove('light', 'dark');
     root.classList.add(theme);
+    root.style.colorScheme = theme;
     localStorage.setItem('theme', theme);
   }, [theme]);
 
@@ -44,7 +54,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       value={{
         theme,
         setTheme,
-        toggleTheme: () => setTheme((prev) => (prev === 'dark' ? 'light' : 'dark')),
+        toggleTheme,
       }}
     >
       {children}

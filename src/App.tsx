@@ -10,14 +10,12 @@ import { LoadingSkeleton } from './components/ui/LoadingSkeleton';
 import { ErrorState } from './components/ui/ErrorState';
 import { EmptyState } from './components/ui/EmptyState';
 import { Surface } from './components/ui/Surface';
-import { useTheme } from './hooks/useTheme';
 import { useCryptoMarket } from './hooks/useCryptoMarket';
 import { useWatchlist } from './hooks/useWatchlist';
 import { applySort, getMarketStats, getMomentumCoin, getTopGainer, getTopLoser } from './lib/market';
 import type { SortOption } from './types/crypto';
 
 function App() {
-  const { theme, toggleTheme } = useTheme();
   const { data, isPending, isError, isFetching, refetch } = useCryptoMarket();
   const { watchlistSet, toggleWatchlist } = useWatchlist();
 
@@ -68,8 +66,6 @@ function App() {
         onRefresh={() => refetch()}
         isFetching={isFetching}
         fetchedAt={data?.fetchedAt}
-        theme={theme}
-        onToggleTheme={toggleTheme}
       />
 
       <main className="mx-auto w-full max-w-7xl space-y-6 px-4 py-6 sm:px-6 lg:px-8 lg:py-8">

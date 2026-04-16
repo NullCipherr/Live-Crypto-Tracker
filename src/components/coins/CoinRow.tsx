@@ -24,7 +24,12 @@ export function CoinRow({ coin, favorite, onToggleFavorite }: CoinRowProps) {
           onClick={() => setExpanded((prev) => !prev)}
           className="flex min-w-0 items-center gap-3 text-left"
         >
-          <img src={coin.image} alt={`${coin.name} logo`} className="h-11 w-11 rounded-full border border-border bg-white p-0.5" loading="lazy" />
+          <img
+            src={coin.image}
+            alt={`${coin.name} logo`}
+            className="h-11 w-11 rounded-full border border-border bg-card p-0.5"
+            loading="lazy"
+          />
           <div className="min-w-0">
             <p className="truncate text-base font-semibold text-foreground">{coin.name}</p>
             <p className="text-xs uppercase tracking-wide text-muted-foreground">
