@@ -228,3 +228,24 @@ Recommended next steps:
 <div align="center">
   Built for real-time monitoring workflows, with clean architecture and scalable UI foundations.
 </div>
+
+---
+
+## CI/CD e Deploy Automático (GitHub Pages)
+
+Este projeto agora possui dois workflows no GitHub Actions:
+
+- `.github/workflows/ci.yml`
+  - Executa em `push` e `pull_request` para `main`
+  - Roda `npm ci`, `npm run lint` e `npm run build`
+- `.github/workflows/deploy-pages.yml`
+  - Executa em `push` para `main` (e manualmente via `workflow_dispatch`)
+  - Faz build de produção e publica automaticamente no **GitHub Pages**
+
+### Configuração necessária no GitHub (uma única vez)
+
+No repositório, acesse:
+
+`Settings` -> `Pages` -> `Build and deployment` -> `Source: GitHub Actions`
+
+Depois disso, todo push na `main` dispara deploy automático.
