@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 const WATCHLIST_STORAGE_KEY = 'crypto-watchlist-v2';
 
@@ -17,18 +17,22 @@ export function useWatchlist() {
   const [watchlist, setWatchlist] = useState<string[]>(() => readWatchlist());
 
   useEffect(() => {
-    localStorage.setItem(WATCHLIST_STORAGE_KEY, JSON.stringify(watchlist));
+    try {
+      localStorage.setItem(WATCHLIST_STORAGE_KEY, JSON.stringify(watchlist));
+    } catch {
+      // Ignore storage quota or private-mode errors
+    }
   }, [watchlist]);
 
   const watchlistSet = useMemo(() => new Set(watchlist), [watchlist]);
 
-  const toggleWatchlist = (coinId: string) => {
+  const toggleWatchlist = useCallback((coinId: string) => {
     setWatchlist((previous) =>
       previous.includes(coinId)
         ? previous.filter((item) => item !== coinId)
         : [...previous, coinId]
     );
-  };
+  }, []);
 
   return {
     watchlist,

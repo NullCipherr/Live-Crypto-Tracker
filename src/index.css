@@ -1,46 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@600;700&display=swap');
+@import './styles/tokens.css';
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
-  :root,
-  :root.light {
-    --background: 220 25% 98%;
-    --foreground: 222 47% 11%;
-    --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
-    --border: 214 25% 88%;
-    --muted: 220 27% 95%;
-    --muted-foreground: 218 13% 40%;
-    --accent: 202 90% 46%;
-    --accent-foreground: 210 40% 98%;
-    --positive: 148 71% 37%;
-    --negative: 353 78% 47%;
-    --chart-1: 202 90% 46%;
-    --chart-2: 148 71% 37%;
-    --chart-3: 353 78% 47%;
-    color-scheme: light;
-  }
-
-  :root.dark {
-    --background: 222 47% 8%;
-    --foreground: 210 40% 96%;
-    --card: 223 42% 11%;
-    --card-foreground: 210 40% 96%;
-    --border: 217 24% 22%;
-    --muted: 223 32% 16%;
-    --muted-foreground: 215 16% 68%;
-    --accent: 191 92% 52%;
-    --accent-foreground: 222 47% 10%;
-    --positive: 148 64% 44%;
-    --negative: 357 84% 61%;
-    --chart-1: 191 92% 52%;
-    --chart-2: 148 64% 44%;
-    --chart-3: 357 84% 61%;
-    color-scheme: dark;
-  }
 
   * {
     @apply border-border;
@@ -49,35 +13,321 @@
   html,
   body,
   #root {
-    min-height: 100%;
+    height: 100%;
   }
 
   body {
-    @apply bg-background text-foreground antialiased;
-    font-family: 'Manrope', system-ui, sans-serif;
+    @apply bg-background text-foreground;
+    font-family: var(--font-sans);
+    text-rendering: optimizeLegibility;
+    line-height: 1.5;
+    caret-color: hsl(var(--accent));
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-inline: env(safe-area-inset-left) env(safe-area-inset-right);
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    font-family: inherit;
+  }
+
+  code,
+  kbd,
+  pre {
+    font-family: var(--font-code);
+  }
+
+  .font-mono {
+    font-family: var(--font-sans);
+    font-variant-numeric: tabular-nums;
+  }
+
+  :root.dark body {
+    letter-spacing: 0.005em;
   }
 
   h1,
   h2,
   h3 {
-    font-family: 'Sora', 'Manrope', system-ui, sans-serif;
-    letter-spacing: -0.015em;
+    text-wrap: balance;
   }
 
-  @media (prefers-reduced-motion: no-preference) {
-    .theme-transition,
-    .theme-transition *,
-    .theme-transition *::before,
-    .theme-transition *::after {
-      transition-property: background-color, color, border-color, fill, stroke, box-shadow;
-      transition-duration: 260ms;
-      transition-timing-function: ease;
-    }
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background-color: hsl(var(--accent) / 0.25);
+    color: hsl(var(--foreground));
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+  }
+
+  *::-webkit-scrollbar {
+    width: var(--scrollbar-size);
+    height: var(--scrollbar-size);
+  }
+
+  *::-webkit-scrollbar-track {
+    background: var(--scrollbar-track);
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: var(--scrollbar-thumb);
+    border-radius: var(--radius-pill);
+  }
+
+  *::-webkit-scrollbar-thumb:hover {
+    background-color: var(--scrollbar-thumb-hover);
+  }
+
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+
+  button:focus:not(:focus-visible),
+  a:focus:not(:focus-visible),
+  [role='button']:focus:not(:focus-visible) {
+    outline: none;
+    box-shadow: none;
+  }
+
+  select {
+    appearance: none;
+    -webkit-appearance: none;
+    background-color: hsl(var(--card));
+    color: hsl(var(--foreground));
+    border: var(--border-thin) solid hsl(var(--border));
+    border-radius: var(--radius-sm);
+    padding-right: 1.85rem;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394A3B8' stroke-width='2.25' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.55rem center;
+    background-size: 12px 12px;
+    box-shadow: var(--shadow-card);
+    cursor: pointer;
+    transition: border-color var(--duration-fast) ease, background-color var(--duration-fast) ease;
+  }
+
+  select:hover:not(:disabled) {
+    border-color: hsl(var(--accent) / 0.55);
+  }
+
+  select:focus-visible {
+    outline: none;
+    border-color: hsl(var(--accent));
+    box-shadow: 0 0 0 2px hsl(var(--accent) / 0.22);
+  }
+
+  select:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+  }
+
+  select option,
+  select optgroup {
+    background-color: hsl(var(--card));
+    color: hsl(var(--foreground));
+    font-size: 12px;
+  }
+
+  select option:checked {
+    background-color: hsl(var(--accent) / 0.2);
+    color: hsl(var(--foreground));
   }
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+@layer components {
+  .lct-page {
+    padding: var(--page-pad);
   }
+  @media (min-width: 1024px) {
+    .lct-page {
+      padding: var(--page-pad-lg);
+    }
+  }
+  .lct-page-container {
+    width: 100%;
+    max-width: var(--page-max-w);
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--section-gap);
+  }
+  .lct-card {
+    border-radius: var(--radius-lg);
+    border: var(--border-thin) solid hsl(var(--border) / 0.85);
+    background-color: hsl(var(--card));
+    padding: var(--card-pad);
+    box-shadow: var(--shadow-card);
+  }
+  .lct-card-lg {
+    border-radius: var(--radius-xl);
+    border: var(--border-thin) solid hsl(var(--border) / 0.85);
+    background-color: hsl(var(--card) / 0.95);
+    padding: var(--card-pad-lg);
+    box-shadow: var(--shadow-card);
+  }
+  .lct-control-sm {
+    height: var(--control-h-sm);
+    border-radius: var(--radius-md);
+  }
+  .lct-control-md {
+    height: var(--control-h-md);
+    border-radius: var(--radius-md);
+  }
+  .lct-control-lg {
+    height: var(--control-h-lg);
+    border-radius: var(--radius-lg);
+  }
+}
+
+::view-transition-old(root) {
+  animation: 180ms cubic-bezier(0.22, 1, 0.36, 1) both fade-only-out;
+  mix-blend-mode: normal;
+}
+
+::view-transition-new(root) {
+  animation: 220ms cubic-bezier(0.22, 1, 0.36, 1) both fade-only-in;
+  mix-blend-mode: normal;
+}
+
+@keyframes fade-only-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes fade-only-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+::view-transition-old(sidebar-shell),
+::view-transition-old(page-header-shell) {
+  display: none;
+}
+
+::view-transition-new(sidebar-shell),
+::view-transition-new(page-header-shell) {
+  animation: none;
+}
+
+@keyframes page-fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes page-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-page-enter {
+  animation: 200ms cubic-bezier(0.22, 1, 0.36, 1) both page-fade-in;
+}
+
+::view-transition-old(main-page) {
+  animation: 140ms ease-out both page-fade-out;
+}
+
+::view-transition-new(main-page) {
+  animation: 200ms cubic-bezier(0.22, 1, 0.36, 1) both page-fade-in;
+}
+
+@keyframes header-content-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes header-content-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+::view-transition-old(page-header-content) {
+  animation: 120ms ease-out both header-content-out;
+}
+
+::view-transition-new(page-header-content) {
+  animation: 180ms ease-out both header-content-in;
+}
+
+@keyframes drawer-slide-in {
+  0% {
+    opacity: 0;
+    transform: translate3d(100%, 0, 0);
+  }
+  25% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.animate-drawer-in {
+  animation: drawer-slide-in 280ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+@keyframes ticker-marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.animate-ticker-marquee {
+  display: flex;
+  width: max-content;
+  animation: ticker-marquee 95s linear infinite;
+  will-change: transform;
+}
+
+.ticker-group:hover .animate-ticker-marquee {
+  animation-play-state: paused;
+}
+
+.apexcharts-tooltip {
+  border-radius: 8px !important;
+  box-shadow: var(--shadow-overlay) !important;
+  backdrop-filter: blur(8px);
+  font-variant-numeric: tabular-nums;
+}
+
+.apexcharts-legend-series {
+  transition: opacity 150ms ease;
 }

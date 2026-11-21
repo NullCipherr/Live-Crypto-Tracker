@@ -8,4 +8,14 @@ const base = process.env.GITHUB_ACTIONS === 'true' && repositoryName ? `/${repos
 export default defineConfig({
   base,
   plugins: [react()],
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'react-vendor': ['react', 'react-dom'],
+          'data-vendor': ['@tanstack/react-query', 'axios'],
+        },
+      },
+    },
+  },
 })
