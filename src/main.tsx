@@ -21,11 +21,80 @@ try {
   // Ignora ambientes sem sessionStorage
 }
 
+declare const __BUILD_ID__: string;
+
+const RELOADED_BUILD_KEY = 'lct-reloaded-build';
+let lastVersionCheckAt = 0;
+
+async function forceRefreshForUpdate(targetBuildId: string): Promise<void> {
+  try {
+    if (sessionStorage.getItem(RELOADED_BUILD_KEY) === targetBuildId) {
+      return;
+    }
+    sessionStorage.setItem(RELOADED_BUILD_KEY, targetBuildId);
+  } catch {
+    // ignore storage errors
+  }
+
+  if ('caches' in window) {
+    try {
+      const keys = await caches.keys();
+      await Promise.all(
+        keys
+          .filter((key) => !key.startsWith('lct-coin-images-'))
+          .map((key) => caches.delete(key)),
+      );
+    } catch {
+      // ignore cache cleanup errors
+    }
+  }
+
+  try {
+    await fetch(import.meta.env.BASE_URL, { cache: 'reload' });
+  } catch {
+    // ignore network errors before reload
+  }
+
+  window.location.reload();
+}
+
+async function checkForAppUpdate(): Promise<void> {
+  const now = Date.now();
+  if (now - lastVersionCheckAt < 30_000) return;
+  lastVersionCheckAt = now;
+
+  try {
+    const response = await fetch(`${import.meta.env.BASE_URL}version.json?t=${now}`, {
+      cache: 'no-store',
+    });
+    if (!response.ok) return;
+    const data = (await response.json()) as { buildId?: string };
+    if (data.buildId && data.buildId !== __BUILD_ID__) {
+      await forceRefreshForUpdate(data.buildId);
+    }
+  } catch {
+    // ignore offline/transient errors
+  }
+}
+
 if ('serviceWorker' in navigator) {
   void navigator.serviceWorker
-    .register(`${import.meta.env.BASE_URL}sw.js`)
+    .register(`${import.meta.env.BASE_URL}sw.js`, { updateViaCache: 'none' })
+    .then((registration) => registration.update().catch(() => {}))
     .catch(() => {});
 }
+
+window.addEventListener('vite:preloadError', () => {
+  void forceRefreshForUpdate(`preload-${__BUILD_ID__}`);
+});
+
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') {
+    void checkForAppUpdate();
+  }
+});
+
+void checkForAppUpdate();
 
 // Evita que botões e links clicados com o mouse fiquem com anel de foco congelado.
 // Cliques via teclado (Enter/Space, detail === 0) preservam o foco acessível normalmente.
